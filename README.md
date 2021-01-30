@@ -2,7 +2,6 @@
 
 ## About The Project
 
-
 ### Built With
 
 * [Django](https://www.djangoproject.com/)
@@ -11,8 +10,22 @@
 
 ### Prerequisites
 
+* Python 3.8 with virtualenv
+
 ### Installation
 
+* create virtualenv named `venv`
+
+```sh
+virtualenv venv
+```
+
+* activate environment and install requirements.txt
+
+```sh
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 <!-- CONTACT -->
 ## Contact
