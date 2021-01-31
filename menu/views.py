@@ -6,3 +6,6 @@ from django.http import HttpResponse
 
 def index(request):
     return HttpResponse("This is the menu page")
+
+def create(request):
+    return HttpResponse("This is were the menus/meals/salad/dessert will be created")
