@@ -11,6 +11,5 @@ class Employee(models.Model):
         name        (str): 
         slack_id    (str):
     """
-    id_employee = models.AutoField(primary_key=True)
     name        = models.CharField(max_length=80)
     slack_id    = models.CharField(max_length=80)
