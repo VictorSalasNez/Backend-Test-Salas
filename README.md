@@ -27,6 +27,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+* Run server
+
+```sh
+python manage.py runserver
+```
+
 <!-- CONTACT -->
 ## Contact
 
