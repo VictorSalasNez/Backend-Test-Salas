@@ -34,6 +34,10 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
+* Lgin as Nora
+    * UserName: Nora
+    * Password: Cornershop1
+
 <!-- CONTACT -->
 ## Contact
 
