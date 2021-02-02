@@ -2,6 +2,12 @@ from django.db import models
 
 # Create your models here.
 
+MENU_TYPE = (
+                ('Carnivoro', 'Carnivoro'),
+                ('Vegetariano', 'Vegetariano'),
+                ('Vegano', 'Vegano')
+            )
+
 class Meal(models.Model):
     """
     Class that represent a Meal
@@ -9,7 +15,9 @@ class Meal(models.Model):
     Attributes:
         meal_name (string): name of the meal (max 80)
     """
+    
     meal_name = models.CharField(max_length=80, null=True)
+    category  = models.CharField(max_length=80, null=True, choices=MENU_TYPE)
 
     def __str__(self):
         return self.meal_name
@@ -34,11 +42,12 @@ class Dessert(models.Model):
         dessert_name (string): name of the dessert (max 80)
     """
     dessert_name = models.CharField(max_length=80, null=True) 
+    category     = models.CharField(max_length=80, null=True, choices=MENU_TYPE)
     
     def __str__(self):
         return self.dessert_name
 
-class Menu(models.Model):
+class Lunch(models.Model):
     """
     Class that represent a Menu
 
@@ -47,9 +56,11 @@ class Menu(models.Model):
         salad   (int): foreing key of the id salad
         dessert (int): foreing key of the id dessert
     """
-    meal    = models.ForeignKey(Meal, on_delete=models.CASCADE, null=True)
-    salad   = models.ForeignKey(Salad, on_delete=models.CASCADE, null=True)
-    dessert = models.ForeignKey(Dessert, on_delete=models.CASCADE, null=True)
+
+    meal      = models.ForeignKey(Meal, on_delete=models.CASCADE, null=True)
+    salad     = models.ForeignKey(Salad, on_delete=models.CASCADE, null=True)
+    dessert   = models.ForeignKey(Dessert, on_delete=models.CASCADE, null=True)
+    category = models.CharField(max_length=200, null=True, choices=MENU_TYPE)
 
 
     def __str__(self):
