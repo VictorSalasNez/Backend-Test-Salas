@@ -2,6 +2,38 @@
 
 {% block content %}
 
-<p> Dashboard</p>
+<div class="row">
 
+    
+    <div class="col-md-6">
+        <div class="card card-body">
+            <h5> Preset Lunch's</h5>
+            <hr>
+            <a class="btn btn-primary  btn-sm btn-block" href="">Create Lunch</a>
+            <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Meal</th>
+                <th scope="col">Salad</th>
+                <th scope="col">Dessert</th>
+                <th scope="col">Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lunch in  lunchs %}
+                    <tr>
+                        <td> {{lunch.id}} </td>
+                        <td> {{lunch.meal}} </td>
+                        <td> {{lunch.salad}} </td>
+                        <td> {{lunch.dessert}} </td>
+                        <td> {{lunch.category}} </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock content %}
