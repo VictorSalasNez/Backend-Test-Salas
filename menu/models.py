@@ -49,7 +49,7 @@ class Dessert(models.Model):
 
 class Lunch(models.Model):
     """
-    Class that represent a Menu
+    Class that represent a Lunch with is meal, salad and dessert
 
     Attributes:
         meal    (int): foreing key of the id meal
@@ -64,4 +64,21 @@ class Lunch(models.Model):
 
 
     def __str__(self):
-        return f"{self.meal}, {self.salad}, {self.dessert}"
+        return f"({self.category}) -> {self.meal}, {self.salad}, {self.dessert}"
+
+
+class Menu(models.Model):
+    """
+    Class that represent a menu of a day
+
+    Attributes:
+        day     (date) : day of this menu
+        lunch   (int)  : multiple lunch assosiated with this menu
+    """
+
+    day    = models.DateTimeField()
+    lunchs = models.ManyToManyField(Lunch)
+
+
+
+

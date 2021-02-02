@@ -1,0 +1,41 @@
+{% extends 'menu/main.html' %}
+
+{% block content %}
+
+
+<h5> Create Lunch</h5>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{lunchform}}
+    <input type="submit", name="Lunch">
+
+</form>
+
+<h5> Create Meal</h5>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{mealform}}
+    <input type="submit", name="Meal"> 
+</form>
+
+<h5> Create Salad</h5>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{saladform}}
+    <input type="submit", name="Salad"> 
+</form>
+
+<br>
+<h5> Create Dessert</h5>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{dessertform}}
+    <input type="submit", name="Dessert"> 
+
+</form>
+
+<br>
+
+{% endblock content %}

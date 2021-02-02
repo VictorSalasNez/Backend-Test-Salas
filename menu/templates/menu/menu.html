@@ -3,13 +3,34 @@
 {% block content %}
 
 <div class="row">
+    
+    <div class="col-md-6">
+        <div class="card card-body">
+            <h5> Menu's </h5>
+            <hr>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'Create_Menu_Page' %}">Create Menu</a>
+            <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Day</th>
+                <th scope="col">menu</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lunch in  lunchs %}
+                {% endfor %}
 
+            </tbody>
+            </table>
+        </div>
+    </div>
     
     <div class="col-md-6">
         <div class="card card-body">
             <h5> Preset Lunch's</h5>
             <hr>
-            <a class="btn btn-primary  btn-sm btn-block" href="">Create Lunch</a>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'Create_Lunch_Page' %}">Create Lunch</a>
             <table class="table">
             <thead class="thead-dark">
                 <tr>

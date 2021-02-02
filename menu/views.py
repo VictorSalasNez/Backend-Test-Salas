@@ -2,13 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 from .models import Lunch
-from .forms import MealForm, SaladForm, DessertForm, LunchForm
+from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm
 
 
 def menu_hub(request):
     return render(request, 'menu/menu.html', {'lunchs': Lunch.objects.all()})
 
-def create(request):
+def create_lunch(request):
 
     if request.method == 'POST':
         form_filled = request.POST.dict()
@@ -33,7 +33,12 @@ def create(request):
              'dessertform': DessertForm(),
              'lunchform'  : LunchForm() 
             }
-    return render(request, 'menu/create.html', forms)
+    return render(request, 'menu/create_lunch.html', forms)
+
+def create_menu(requests):
+    menu_form = {'menuform': MenuForm()}
+    return render(requests, 'menu/create_menu.html', menu_form) 
+
 
 def menus_day(requests, menu_uuid):
-    return render(requests, 'menu/create.html')
+    return render(requests, 'menu/menu.html')
