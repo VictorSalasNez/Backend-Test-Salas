@@ -2,6 +2,62 @@
 
 {% block content %}
 
-<p> Create </p>
+<h5> Create Meal</h5>
 
+<div class="row">
+    <div class= "col-md-6">
+        <div class="card card-body"
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{mealform}}
+                <input type="submit", name="Meal"> 
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<br>
+<h5> Create Salad</h5>
+<div class="row">
+    <div class= "col-md-6">
+        <div class="card card-body"
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{saladform}}
+                <input type="submit", name="Salad"> 
+
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<h5> Create Dessert</h5>
+<div class="row">
+    <div class= "col-md-6">
+        <div class="card card-body"
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{dessertform}}
+                <input type="submit", name="Dessert"> 
+
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<h5> Create Lunch</h5>
+<div class="row">
+    <div class= "col-md-6">
+        <div class="card card-body"
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{lunchform}}
+                <input type="submit", name="Lunch">
+
+            </form>
+
+        </div>
+    </div>
+</div>
 {% endblock content %}
