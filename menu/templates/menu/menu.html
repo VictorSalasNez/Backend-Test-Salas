@@ -18,7 +18,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for lunch in  lunchs %}
+                {% for menu in  menus %}
+                    <tr>
+                        <td> {{menu.id}} </td>
+                        <td> {{menu.day}} </td>
+                        <td> {% for lunch in menu.diplay_lunches %} <pre> {{lunch}} </pre> {% endfor %}</td>
+                    </tr>
                 {% endfor %}
 
             </tbody>

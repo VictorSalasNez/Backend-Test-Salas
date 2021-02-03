@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
-from .models import Lunch
+from .models import Lunch, Menu
 from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm
 
 
 def menu_hub(request):
-    return render(request, 'menu/menu.html', {'lunchs': Lunch.objects.all()})
+    return render(request, 'menu/menu.html', {'lunchs': Lunch.objects.all(), 'menus': Menu.objects.all()})
 
 def create_lunch(request):
 

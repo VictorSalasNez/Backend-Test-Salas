@@ -82,7 +82,16 @@ class Menu(models.Model):
 
     def generate_slack_message(self):
         options = ''
-        for num, lunch in zip( range(self.lunch), self.lunch):
+        for num, lunch in zip( range(self.lunchs), self.lunchs):
             options += f"Option {num+1}: {lunch}\n"
 
         return f"Hello!\nI share with you today's menu :)\n\n{options}\nHave a nice day!"""
+
+    @property
+    def diplay_lunches(self):
+        lunches_str = []
+        for lunch in self.lunchs.values():
+            lunch_id = lunch["id"]
+            lunches_str.append(f"{Lunch.objects.get(id=lunch_id)}")
+
+        return lunches_str
