@@ -6,15 +6,18 @@ class MealForm(ModelForm):
         model  = Meal
         fields = '__all__'
 
+
 class SaladForm(ModelForm):
     class Meta:
         model  = Salad
         fields = '__all__'
 
+
 class DessertForm(ModelForm):
     class Meta:
         model  = Dessert
         fields = '__all__'
+
 
 class LunchForm(ModelForm):
     class Meta:
@@ -23,6 +26,7 @@ class LunchForm(ModelForm):
 
 
 class MenuForm(ModelForm):
+    #TODO find a way to display a datepicker
     class Meta:
         model  = Menu
         fields = '__all__'

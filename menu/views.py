@@ -10,6 +10,7 @@ def menu_hub(request):
 
 def create_lunch(request):
 
+    # TODO send a popup message if fail or success
     if request.method == 'POST':
         form_filled = request.POST.dict()
         
@@ -35,9 +36,14 @@ def create_lunch(request):
             }
     return render(request, 'menu/create_lunch.html', forms)
 
-def create_menu(requests):
+def create_menu(request):
+    # TODO send a popup message if fail or success
+    if request.method == 'POST':
+        form = MenuForm(request.POST)
+        if form.is_valid():
+            form.save()
     menu_form = {'menuform': MenuForm()}
-    return render(requests, 'menu/create_menu.html', menu_form) 
+    return render(request, 'menu/create_menu.html', menu_form) 
 
 
 def menus_day(requests, menu_uuid):
