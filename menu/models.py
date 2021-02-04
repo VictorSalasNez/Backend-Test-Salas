@@ -82,7 +82,7 @@ class Menu(models.Model):
 
     def generate_slack_message(self):
         options = ''
-        for num, lunch in zip( range(self.lunchs), self.lunchs):
+        for num, lunch in zip( range(len(self.lunchs.all())), self.lunchs.all()):
             options += f"Option {num+1}: {lunch}\n"
 
         return f"Hello!\nI share with you today's menu :)\n\n{options}\nHave a nice day!"""
