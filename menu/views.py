@@ -1,9 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
+import os
 # Create your views here.
 from .models import Lunch, Menu
 from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm
+from employees.models import Employee
 
+os.environ['SLACK_BOT_TOKEN'] = "xoxb-1691797685303-1708676997845-jtGFddMOhEDsscCcjMqRUfw9"
+client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
 
 def menu_hub(request):
     return render(request, 'menu/menu.html', {'lunchs': Lunch.objects.all(), 'menus': Menu.objects.all()})
@@ -45,6 +51,19 @@ def create_menu(request):
     menu_form = {'menuform': MenuForm()}
     return render(request, 'menu/create_menu.html', menu_form) 
 
-
 def menus_day(requests, menu_uuid):
     return render(requests, 'menu/menu.html')
+
+
+def send_message(request, menu_id):
+
+    for employee in Employee.objects.all():
+        try:
+            response = client.chat_postMessage(channel=employee.slack_id , text=Menu.objects.get(id=menu_id).generate_slack_message())
+        except SlackApiError as e:
+            # You will get a SlackApiError if "ok" is False
+            assert e.response["ok"] is False
+            assert e.response["error"]  # str like 'invalid_auth', 'channel_not_found'
+            print(f"Got an error: {e.response['error']}")
+
+    return redirect(menu_hub)
