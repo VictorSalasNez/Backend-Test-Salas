@@ -1,0 +1,13 @@
+{% extends 'menu/main.html' %}
+
+{% block content %}
+
+<h5> Select Menu</h5>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{menusday}}
+    <input type="submit", name="Menu">
+</form>
+
+{% endblock content %}

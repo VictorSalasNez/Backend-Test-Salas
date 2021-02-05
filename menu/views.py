@@ -5,7 +5,7 @@ from slack_sdk.errors import SlackApiError
 import os
 # Create your views here.
 from .models import Lunch, Menu
-from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm
+from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm, SelectMenuForm
 from employees.models import Employee
 
 os.environ['SLACK_BOT_TOKEN'] = "xoxb-1691797685303-1708676997845-jtGFddMOhEDsscCcjMqRUfw9"
@@ -52,7 +52,10 @@ def create_menu(request):
     return render(request, 'menu/create_menu.html', menu_form) 
 
 def menus_day(requests, menu_uuid):
-    return render(requests, 'menu/menu.html')
+
+
+    select_menu = {'menusday': SelectMenuForm()}
+    return render(requests, 'menu/select_menu.html', select_menu)
 
 
 def send_message(request, menu_id):
