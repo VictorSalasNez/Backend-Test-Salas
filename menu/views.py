@@ -59,7 +59,7 @@ def send_message(request, menu_id):
 
     for employee in Employee.objects.all():
         try:
-            response = client.chat_postMessage(channel=employee.slack_id , text=Menu.objects.get(id=menu_id).generate_slack_message())
+            response = client.chat_postMessage(channel=employee.slack_id , text=Menu.objects.get(id=menu_id).generate_slack_message(employee.uuid))
         except SlackApiError as e:
             # You will get a SlackApiError if "ok" is False
             assert e.response["ok"] is False

@@ -80,12 +80,17 @@ class Menu(models.Model):
     day    = models.DateField()
     lunchs = models.ManyToManyField(Lunch)
 
-    def generate_slack_message(self):
+    def generate_slack_message(self, employee_uuid):
         options = ''
         for num, lunch in zip( range(len(self.lunchs.all())), self.lunchs.all()):
             options += f"Option {num+1}: {lunch}\n"
 
-        return f"Hello!\nI share with you today's menu :)\n\n{options}\nHave a nice day!"""
+        return f"Hello!\nI share with you today's menu :)\n\n{options}\n Choose your menu here: {self.generate_url_menu(employee_uuid)} Have a nice day!"""
+
+
+    def generate_url_menu(self, uuid):
+        # TODO generate url with nora.cornershop
+        return f"http://127.0.0.1:8000/menu/{uuid}\n"
 
     @property
     def diplay_lunches(self):
