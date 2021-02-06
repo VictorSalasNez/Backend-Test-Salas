@@ -45,6 +45,7 @@ def create_lunch(request):
 
 def create_menu(request):
     # TODO send a popup message if fail or success
+    # TODO block two menus for the same day
     if request.method == 'POST':
         form = MenuForm(request.POST)
         if form.is_valid():
@@ -56,12 +57,15 @@ def menus_day(request, menu_uuid):
     try:
         if request.method == 'POST':
             check_time = datetime.datetime.now()
-            if check_time.hour >= 11:
-                return HttpResponse("too late")
+            #if check_time.hour >= 11:
+            #    return HttpResponse("too late")
 
-            new_order = Order(day=check_time, lunch=Lunch.objects.get(id=request.POST.dict()['lunchs']), employee=Employee.objects.get(uuid=menu_uuid))
+            new_order = Order(day=check_time, 
+                              lunch=Lunch.objects.get(id=request.POST.dict()['lunchs']),
+                              comment=request.POST.dict()['comment'],
+                              employee=Employee.objects.get(uuid=menu_uuid))
             new_order.save()
-            return redirect(menu_hub)
+            return HttpResponse("Thanks For Order with Nora's Lunch")
 
         select_menu = {'menusday': SelectMenuForm()}
         return render(request, 'menu/select_menu.html', select_menu)

@@ -1,4 +1,4 @@
-from django.forms import ModelForm, ChoiceField
+from django.forms import ModelForm, ChoiceField, CharField
 from datetime import date
 from .models import Meal, Salad, Dessert, Lunch, Menu
 
@@ -43,4 +43,5 @@ class SelectMenuForm(ModelForm):
         menu_list = Menu.objects.get(day=date.today()).lunchs.values_list()
         OPTIONS = tuple([ (lunch[0], str(Lunch.objects.get(id= lunch[0])) ) for lunch in menu_list ])
         self.fields['lunchs'] = ChoiceField(required=True, choices=OPTIONS)
+        self.fields['comment'] = CharField(required=False)
 

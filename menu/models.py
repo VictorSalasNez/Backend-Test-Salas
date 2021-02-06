@@ -116,3 +116,4 @@ class Order(models.Model):
     day      = models.DateField()
     lunch    = models.ForeignKey(Lunch, on_delete=models.CASCADE, null=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    comment  = models.CharField(max_length=200, null=True)
