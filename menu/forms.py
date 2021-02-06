@@ -40,7 +40,7 @@ class SelectMenuForm(ModelForm):
 
     def __init__(self):
         super(SelectMenuForm, self).__init__()
-        menu_list = Menu.objects.get(day=date.today()).generate_str_options().split("\n")[:-1]
-        OPTIONS = tuple([(lunch, lunch) for lunch in menu_list])
+        menu_list = Menu.objects.get(day=date.today()).lunchs.values_list()
+        OPTIONS = tuple([ (lunch[0], str(Lunch.objects.get(id= lunch[0])) ) for lunch in menu_list ])
         self.fields['lunchs'] = ChoiceField(required=True, choices=OPTIONS)
 

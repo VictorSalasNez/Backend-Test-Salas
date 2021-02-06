@@ -1,5 +1,5 @@
 from django.db import models
-
+from employees.models import Employee
 # Create your models here.
 
 MENU_TYPE = (
@@ -67,7 +67,6 @@ class Lunch(models.Model):
         lunch_type = "" if self.category is None else f"({self.category}) -> "
         return f"{lunch_type}{self.meal}, {self.salad}, {self.dessert}"
 
-
 class Menu(models.Model):
     """
     Class that represent a menu of a day
@@ -103,3 +102,17 @@ class Menu(models.Model):
             lunches_str.append(f"{Lunch.objects.get(id=lunch_id)}")
 
         return lunches_str
+
+class Order(models.Model):
+    """
+    Class that represent the order of Nora's
+    
+    Attributes:
+        day      (date) : day of this menu
+        lunch    (int)  : lunch that the employee order
+        emplotee (uuid) : employee id of the order
+    """
+
+    day      = models.DateField()
+    lunch    = models.ForeignKey(Lunch, on_delete=models.CASCADE, null=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)

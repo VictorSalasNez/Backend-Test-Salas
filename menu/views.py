@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import os
+import datetime
 # Create your views here.
-from .models import Lunch, Menu
+from .models import Lunch, Menu, Order
 from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm, SelectMenuForm
 from employees.models import Employee
 
@@ -51,12 +52,21 @@ def create_menu(request):
     menu_form = {'menuform': MenuForm()}
     return render(request, 'menu/create_menu.html', menu_form) 
 
-def menus_day(requests, menu_uuid):
+def menus_day(request, menu_uuid):
+    try:
+        if request.method == 'POST':
+            check_time = datetime.datetime.now()
+            if check_time.hour >= 11:
+                return HttpResponse("too late")
 
+            new_order = Order(day=check_time, lunch=Lunch.objects.get(id=request.POST.dict()['lunchs']), employee=Employee.objects.get(uuid=menu_uuid))
+            new_order.save()
+            return redirect(menu_hub)
 
-    select_menu = {'menusday': SelectMenuForm()}
-    return render(requests, 'menu/select_menu.html', select_menu)
-
+        select_menu = {'menusday': SelectMenuForm()}
+        return render(request, 'menu/select_menu.html', select_menu)
+    except Exception as error:
+        return HttpResponse(error)
 
 def send_message(request, menu_id):
 
