@@ -64,8 +64,8 @@ class Lunch(models.Model):
 
 
     def __str__(self):
-        lunch_type = "" if self.category is None else f"({self.category}) -> "
-        return f"{lunch_type}{self.meal}, {self.salad}, {self.dessert}"
+        lunch_type = "" if self.category is None else f"({self.category}) ->"
+        return f"{lunch_type} {self.meal}, {self.salad}, {self.dessert}"
 
 class Menu(models.Model):
     """
@@ -76,7 +76,7 @@ class Menu(models.Model):
         lunch   (int)  : multiple lunch assosiated with this menu
     """
 
-    day    = models.DateField()
+    day    = models.DateField(null=True)
     lunchs = models.ManyToManyField(Lunch)
 
     def generate_slack_message(self, employee_uuid):
@@ -113,7 +113,7 @@ class Order(models.Model):
         emplotee (uuid) : employee id of the order
     """
 
-    day      = models.DateField()
+    day      = models.DateField(null=True)
     lunch    = models.ForeignKey(Lunch, on_delete=models.CASCADE, null=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     comment  = models.CharField(max_length=200, blank=True ,null=True)
