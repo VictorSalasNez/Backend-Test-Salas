@@ -1,30 +1,59 @@
 <br>
 <div class="row">
-    <div class="col-md-4">  
-        <h5>Next Menu's Day</h5>
-            <hr>
-            <div class="card card-body">
-                <a class="btn btn-primary  btn-sm btn-block" href="">Menu</a>
-                <table class="table table-sm">
-                    <tr>
-                        <th>Date</th>
-                        <th>Program</th>
-                    </tr>
-                </table>
-            </div>
-    </div>
-
-    <div class="col-md-8">
-        <h5>Last 5 orders of the day</h5>
+    <div class="col-md-6">  
+        <h5>Orders For Today</h5>
             <hr>
             <div class="card card-body">
                 <a class="btn btn-primary  btn-sm btn-block" href="">Export Today Orders</a>
                 <table class="table table-sm">
+                <thead class="thead-dark">
                     <tr>
-                        <th>Customer</th>
-                        <th>Date Orderd</th>
+                        <th>Employee</th>
+                        <th>Menu</th>
                         <th>Comment</th>
-                    </tr>
+                    </tr>                
+                </thead>
+                <tbody>
+                    {% for order in  orders %}
+                        {% if order.day.day == today_day %}
+                            <tr>
+                                <td> {{order.employee}} </td>
+                                <td> {{order.lunch}} </td>
+                                <td> {{order.comment}} </td>
+                            </tr>
+
+                        {% endif %}    
+                    {% endfor %}
+
+                </tbody>
+                </table>
+            </div>
+    </div>
+
+    <div class="col-md-6">
+        <h5>Next Day's menu's</h5>
+            <hr>
+            <div class="card card-body">
+                <a class="btn btn-primary  btn-sm btn-block" href="">Go To menu's</a>
+                <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Day</th>
+                        <th>Lunches</th>
+                    </tr>                
+                </thead>
+                <tbody>
+                    {% for menu in  menus %}
+                        {% if menu.day.day > today_day %}
+                            <tr>
+                                <td> {{menu.day}} </td>
+                                <td> {% for lunch in menu.diplay_lunches %} <pre> {{lunch}} </pre> {% endfor %}</td>
+                            </tr>
+
+                        {% endif %}    
+                    {% endfor %}
+
+                </tbody>
                 </table>
             </div>
     </div>
