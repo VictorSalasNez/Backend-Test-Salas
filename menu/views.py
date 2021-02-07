@@ -22,20 +22,21 @@ def menu_hub(request):
 
 def menus_day(request, menu_uuid):
     try:
-        if request.method == 'POST':
-            check_time = datetime.datetime.now()
-            #if check_time.hour >= 11:
-            #    return HttpResponse("too late")
+        check_time = datetime.datetime.now()
+        if check_time.hour < 11:
+            if request.method == 'POST':
 
-            new_order = Order(day=check_time, 
-                              lunch=Lunch.objects.get(id=request.POST.dict()['lunchs']),
-                              comment=request.POST.dict()['comment'],
-                              employee=Employee.objects.get(uuid=menu_uuid))
-            new_order.save()
-            return HttpResponse("Thanks For Order with Nora's Lunch")
+                new_order = Order(day=check_time, 
+                                lunch=Lunch.objects.get(id=request.POST.dict()['lunchs']),
+                                comment=request.POST.dict()['comment'],
+                                employee=Employee.objects.get(uuid=menu_uuid))
+                new_order.save()
+                return HttpResponse("Thanks For Order with Nora's Lunch")
 
-        select_menu = {'menusday': SelectMenuForm()}
-        return render(request, 'menu/select_menu.html', select_menu)
+            select_menu = {'menusday': SelectMenuForm()}
+            return render(request, 'menu/select_menu.html', select_menu)
+        else:
+            return HttpResponse("too late")
     except Exception as error:
         return HttpResponse(error)
 
