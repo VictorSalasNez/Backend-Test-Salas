@@ -5,53 +5,20 @@ from slack_sdk.errors import SlackApiError
 import os
 import datetime
 # Create your views here.
-from .models import Lunch, Menu, Order
+from .models import Lunch, Menu, Order, Meal, Salad, Dessert
 from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm, SelectMenuForm
 from employees.models import Employee
 
 os.environ['SLACK_BOT_TOKEN'] = "xoxb-1691797685303-1708676997845-jtGFddMOhEDsscCcjMqRUfw9"
 client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
 
+
 def menu_hub(request):
-    return render(request, 'menu/menu.html', {'lunchs': Lunch.objects.all(), 'menus': Menu.objects.all()})
-
-def create_lunch(request):
-
-    # TODO send a popup message if fail or success
-    if request.method == 'POST':
-        form_filled = request.POST.dict()
-        
-        if "Meal" in form_filled.keys():
-            form = MealForm(request.POST)
-
-        if "Salad" in form_filled.keys():
-            form = SaladForm(request.POST)
-
-        if "Dessert" in form_filled.keys():
-            form = DessertForm(request.POST)
-
-        if "Lunch" in form_filled.keys():
-            form = LunchForm(request.POST)
-        
-        if form.is_valid():
-            form.save()
-
-    forms = {'mealform'   : MealForm(), 
-             'saladform'  : SaladForm(),
-             'dessertform': DessertForm(),
-             'lunchform'  : LunchForm() 
-            }
-    return render(request, 'menu/create_lunch.html', forms)
-
-def create_menu(request):
-    # TODO send a popup message if fail or success
-    # TODO block two menus for the same day
-    if request.method == 'POST':
-        form = MenuForm(request.POST)
-        if form.is_valid():
-            form.save()
-    menu_form = {'menuform': MenuForm()}
-    return render(request, 'menu/create_menu.html', menu_form) 
+    return render(request, 'menu/menu.html', {'lunchs'  : Lunch.objects.all(), 
+                                              'menus'   : Menu.objects.all(),
+                                              'meals'   : Meal.objects.all(),
+                                              'salads'  : Salad.objects.all(),
+                                              'desserts': Dessert.objects.all()})
 
 def menus_day(request, menu_uuid):
     try:
@@ -84,3 +51,158 @@ def send_message(request, menu_id):
             print(f"Got an error: {e.response['error']}")
 
     return redirect(menu_hub)
+
+# CREATE VIEWS
+def create_menu(request):
+    # TODO send a popup message if fail or success
+    # TODO block two menus for the same day
+    if request.method == 'POST':
+        form = MenuForm(request.POST)
+        if form.is_valid():
+            form.save()
+    menu_form = {'menuform': MenuForm()}
+    return render(request, 'menu/create_menu.html', menu_form) 
+
+def create_lunch(request):
+
+    # TODO send a popup message if fail or success
+    if request.method == 'POST':
+        form = LunchForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'menu/create_lunch.html', {'lunchform'  : LunchForm() })
+
+def create_meal(request):
+    if request.method == 'POST':
+        form = MealForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'menu/create_meal.html', {'mealform'  : MealForm() })
+
+def create_salad(request):
+    if request.method == 'POST':
+        form = SaladForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'menu/create_salad.html', {'saladform'  : SaladForm() })
+
+def create_dessert(request):
+    if request.method == 'POST':
+        form = DessertForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'menu/create_dessert.html', {'dessertform'  : DessertForm() })
+
+
+# UPDATE VIEWS
+def update_menu(request, pk):
+    menu = Menu.objects.get(id=pk)
+    form = MenuForm(instance=menu)
+    if request.method == 'POST':
+        form = MenuForm(request.POST, instance=menu)
+        if form.is_valid():
+            form.save()
+            return redirect(menu_hub)
+
+    menu_form = {'menuform': form}
+    return render(request, 'menu/create_menu.html', menu_form) 
+
+def update_lunch(request, pk):
+    lunch = Lunch.objects.get(id=pk)
+    form = LunchForm(instance=lunch)
+    if request.method == 'POST':
+        form = LunchForm(request.POST, instance=lunch)
+        if form.is_valid():
+            form.save()
+            return redirect(menu_hub)
+
+    lunchform = {'lunchform': form}
+    return render(request, 'menu/create_lunch.html', lunchform) 
+
+def update_meal(request, pk):
+    meal = Meal.objects.get(id=pk)
+    form = MealForm(instance=meal)
+    if request.method == 'POST':
+        form = MealForm(request.POST, instance=meal)
+        if form.is_valid():
+            form.save()
+            return redirect(menu_hub)
+
+    mealform = {'mealform': form}
+    return render(request, 'menu/create_meal.html', mealform) 
+
+def update_salad(request, pk):
+    salad = Salad.objects.get(id=pk)
+    form = SaladForm(instance=salad)
+    if request.method == 'POST':
+        form = SaladForm(request.POST, instance=salad)
+        if form.is_valid():
+            form.save()
+            return redirect(menu_hub)
+
+    saladform = {'saladform': form }
+    return render(request, 'menu/create_salad.html', saladform) 
+
+def update_dessert(request, pk):
+    dessert = Dessert.objects.get(id=pk)
+    form = DessertForm(instance=dessert)
+    if request.method == 'POST':
+        form = DessertForm(request.POST, instance=dessert)
+        if form.is_valid():
+            form.save()
+            return redirect(menu_hub)
+
+    dessertform = {'dessertform': form}
+    return render(request, 'menu/create_dessert.html', dessertform) 
+
+
+# DELETE VIEWS
+def delete_menu(request, pk):
+    menu = Menu.objects.get(id=pk)
+    if request.method == 'POST':
+        menu.delete()
+        return redirect(menu_hub)
+
+    form = {'item': menu}
+    return render(request, "menu/delete_menu.html", form)
+
+def delete_lunch(request, pk):
+    lunch = Lunch.objects.get(id=pk)
+    if request.method == 'POST':
+        lunch.delete()
+        return redirect(menu_hub)
+        
+    form = {'item': lunch}
+    return render(request, "menu/delete_lunch.html", form)
+
+def delete_meal(request, pk):
+    meal = Meal.objects.get(id=pk)
+    if request.method == 'POST':
+        meal.delete()
+        return redirect(menu_hub)
+        
+    form = {'item': meal}
+    return render(request, "menu/delete_meal.html", form)
+
+def delete_salad(request, pk):
+    salad = Salad.objects.get(id=pk)
+    if request.method == 'POST':
+        salad.delete()
+        return redirect(menu_hub)
+        
+    form = {'item': salad}
+    return render(request, "menu/delete_salad.html", form)
+
+def delete_dessert(request, pk):
+    dessert = Dessert.objects.get(id=pk)
+    if request.method == 'POST':
+        dessert.delete()
+        return redirect(menu_hub)
+        
+    form = {'item': dessert}
+    return render(request, "menu/delete_lunch.html", form)
+

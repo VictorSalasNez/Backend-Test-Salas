@@ -2,12 +2,13 @@
 
 {% block content %}
 
-<h5> Create/Update Menu</h5>
+
+<h5> Create/Update Meal</h5>
 
 <form action="" method="POST">
     {% csrf_token %}
-    {{menuform}}
-    <input type="submit", name="Menu">
+    {{mealform}}
+    <input type="submit", name="Meal"> 
 </form>
 
 {% endblock content %}

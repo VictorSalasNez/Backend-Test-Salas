@@ -16,6 +16,8 @@
                 <th scope="col">Day</th>
                 <th scope="col">menu</th>
                 <th scope="col">Reminder</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +25,10 @@
                     <tr>
                         <td> {{menu.id}} </td>
                         <td> {{menu.day}} </td>
-                        <td> {% for lunch in menu.diplay_lunches %} <pre> {{lunch}} </pre> {% endfor %}</td>
+                        <td> {% for lunch in menu.diplay_lunches %} {{lunch}} {% endfor %}</td>
                         <td> <a href="{% url 'Send_Message' menu_id=menu.id %}"> Send </a> </td>
+                        <td> <a class="btn btn-sm btn-info" href="{% url 'Update_Menu_Page' menu.id %}"> Update </a> </td>
+                        <td> <a class="btn btn-sm btn-danger" href="{% url 'Delete_menu' menu.id %}"> Delete </a> </td>
                     </tr>
                 {% endfor %}
 
@@ -46,6 +50,9 @@
                 <th scope="col">Salad</th>
                 <th scope="col">Dessert</th>
                 <th scope="col">Category</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +63,8 @@
                         <td> {{lunch.salad}} </td>
                         <td> {{lunch.dessert}} </td>
                         <td> {{lunch.category}} </td>
+                        <td> <a class="btn btn-sm btn-info" href="{% url 'Update_Lunch_Page' lunch.id %}"> Update </a> </td>
+                        <td> <a class="btn btn-sm btn-danger" href="{% url 'Delete_lunch' lunch.id %}"> Delete </a> </td>
                     </tr>
                 {% endfor %}
 
@@ -64,4 +73,95 @@
         </div>
     </div>
 </div>
+
+<br>
+<div class="row">
+    
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h5> Meal </h5>
+            <hr>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'Create_Meal_Page' %}">Create Meal</a>
+            <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>              
+                </tr>
+            </thead>
+            <tbody>
+                {% for meal in meals %}
+                    <tr>
+                        <td> {{meal.meal_name}} </td>
+                        <td> {{meal.category }}</td>
+                        <td> <a class="btn btn-sm btn-info" href="{% url 'Update_Meal_Page' meal.id %}"> Update </a> </td>
+                        <td> <a class="btn btn-sm btn-danger" href="{% url 'Delete_meal' meal.id %}"> Delete </a> </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h5> Salad</h5>
+            <hr>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'Create_Salad_Page' %}">Create Salad</a>
+            <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Salad</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for salad in salads%}
+                    <tr>
+                        <td> {{salad.salad_name}} </td>
+                        <td> <a class="btn btn-sm btn-info" href="{% url 'Update_Salad_Page' salad.id %}"> Update </a> </td>
+                        <td> <a class="btn btn-sm btn-danger" href="{% url 'Delete_salad' salad.id %}"> Delete </a> </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h5> Desert</h5>
+            <hr>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'Create_Dessert_Page' %}">Create Dessert</a>
+            <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Dessert</th>
+                <th scope="col">Category</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dessert in desserts %}
+                    <tr>
+                        <td> {{dessert.dessert_name}} </td>
+                        <td> {{dessert.category }}</td>
+                        <td> <a class="btn btn-sm btn-info" href="{% url 'Update_Dessert_Page' dessert.id %}"> Update </a> </td>
+                        <td> <a class="btn btn-sm btn-danger" href="{% url 'Delete_dessert' dessert.id %}"> Delete </a> </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 {% endblock content %}

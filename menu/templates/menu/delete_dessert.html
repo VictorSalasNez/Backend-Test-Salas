@@ -1,0 +1,12 @@
+{% extends 'menu/main.html' %}
+
+{% block content %}
+
+<p> Are you sure you want to delete "{{item}}"</p>
+
+<form action= "{% url 'Delete_dessert' item.id %}" method = "POST">
+    {% csrf_token %}
+    <a href="{% url 'menu_hub' %}"> Cancel</a>
+    <input type="submit" name="Confirm">
+</form>
+{% endblock content %}
