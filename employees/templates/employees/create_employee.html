@@ -1,0 +1,14 @@
+{% extends 'menu/main.html' %}
+
+{% block content %}
+
+
+<h5> Create/Update Employee</h5>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{employeeform}}
+    <input type="submit", name="Lunch">
+
+</form>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'menu/main.html' %}
+
+{% block content %}
+
+<div class="row">
+    
+    <div class="col-md-6">
+        <div class="card card-body">
+            <h5> Employees </h5>
+            <hr>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_employee' %}">Create Employee</a>
+            <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">UUID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Slack ID</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in  employees %}
+                    <tr>
+                        <td> {{employee.uuid}} </td>
+                        <td> {{employee.name}} </td>
+                        <td> {{employee.slack_id}} </td>
+                        <td> <a class="btn btn-sm btn-info" href="{% url 'update_employee' employee.uuid %}"> Update </a> </td>
+                        <td> <a class="btn btn-sm btn-danger" href="{% url 'delete_employee' employee.uuid %}"> Delete </a> </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
