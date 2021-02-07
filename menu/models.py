@@ -80,7 +80,7 @@ class Menu(models.Model):
     lunchs = models.ManyToManyField(Lunch)
 
     def generate_slack_message(self, employee_uuid):
-        return f"Hello!\nI share with you today's menu :)\n\n{self.generate_str_options()}\n Choose your menu here: {self.generate_url_menu(employee_uuid)} Have a nice day!"""
+        return f"Hello!\nI share with you today's menu :)\n\n{self.generate_str_options()}\nChoose your menu here: {self.generate_url_menu(employee_uuid)}\nHave a nice day!"""
 
 
     def generate_url_menu(self, uuid):
