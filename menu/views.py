@@ -4,6 +4,7 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import os
 import datetime
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .models import Lunch, Menu, Order, Meal, Salad, Dessert
 from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm, SelectMenuForm
@@ -12,14 +13,13 @@ from employees.models import Employee
 os.environ['SLACK_BOT_TOKEN'] = "xoxb-1691797685303-1708676997845-jtGFddMOhEDsscCcjMqRUfw9"
 client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
 
-
+@login_required(login_url="Login_page")
 def menu_hub(request):
     return render(request, 'menu/menu.html', {'lunchs'  : Lunch.objects.all(), 
                                               'menus'   : Menu.objects.all(),
                                               'meals'   : Meal.objects.all(),
                                               'salads'  : Salad.objects.all(),
                                               'desserts': Dessert.objects.all()})
-
 def menus_day(request, menu_uuid):
     try:
         check_time = datetime.datetime.now()
@@ -40,6 +40,7 @@ def menus_day(request, menu_uuid):
     except Exception as error:
         return HttpResponse(error)
 
+@login_required(login_url="Login_page")
 def send_message(request, menu_id):
 
     for employee in Employee.objects.all():
@@ -54,6 +55,7 @@ def send_message(request, menu_id):
     return redirect(menu_hub)
 
 # CREATE VIEWS
+@login_required(login_url="Login_page")
 def create_menu(request):
     # TODO send a popup message if fail or success
     # TODO block two menus for the same day
@@ -64,6 +66,7 @@ def create_menu(request):
     menu_form = {'menuform': MenuForm()}
     return render(request, 'menu/create_menu.html', menu_form) 
 
+@login_required(login_url="Login_page")
 def create_lunch(request):
 
     # TODO send a popup message if fail or success
@@ -74,6 +77,7 @@ def create_lunch(request):
 
     return render(request, 'menu/create_lunch.html', {'lunchform'  : LunchForm() })
 
+@login_required(login_url="Login_page")
 def create_meal(request):
     if request.method == 'POST':
         form = MealForm(request.POST)
@@ -82,6 +86,7 @@ def create_meal(request):
 
     return render(request, 'menu/create_meal.html', {'mealform'  : MealForm() })
 
+@login_required(login_url="Login_page")
 def create_salad(request):
     if request.method == 'POST':
         form = SaladForm(request.POST)
@@ -89,7 +94,7 @@ def create_salad(request):
             form.save()
 
     return render(request, 'menu/create_salad.html', {'saladform'  : SaladForm() })
-
+@login_required(login_url="Login_page")
 def create_dessert(request):
     if request.method == 'POST':
         form = DessertForm(request.POST)
@@ -100,6 +105,7 @@ def create_dessert(request):
 
 
 # UPDATE VIEWS
+@login_required(login_url="Login_page")
 def update_menu(request, pk):
     menu = Menu.objects.get(id=pk)
     form = MenuForm(instance=menu)
@@ -112,6 +118,7 @@ def update_menu(request, pk):
     menu_form = {'menuform': form}
     return render(request, 'menu/create_menu.html', menu_form) 
 
+@login_required(login_url="Login_page")
 def update_lunch(request, pk):
     lunch = Lunch.objects.get(id=pk)
     form = LunchForm(instance=lunch)
@@ -124,6 +131,7 @@ def update_lunch(request, pk):
     lunchform = {'lunchform': form}
     return render(request, 'menu/create_lunch.html', lunchform) 
 
+@login_required(login_url="Login_page")
 def update_meal(request, pk):
     meal = Meal.objects.get(id=pk)
     form = MealForm(instance=meal)
@@ -136,6 +144,7 @@ def update_meal(request, pk):
     mealform = {'mealform': form}
     return render(request, 'menu/create_meal.html', mealform) 
 
+@login_required(login_url="Login_page")
 def update_salad(request, pk):
     salad = Salad.objects.get(id=pk)
     form = SaladForm(instance=salad)
@@ -148,6 +157,7 @@ def update_salad(request, pk):
     saladform = {'saladform': form }
     return render(request, 'menu/create_salad.html', saladform) 
 
+@login_required(login_url="Login_page")
 def update_dessert(request, pk):
     dessert = Dessert.objects.get(id=pk)
     form = DessertForm(instance=dessert)
@@ -162,6 +172,7 @@ def update_dessert(request, pk):
 
 
 # DELETE VIEWS
+@login_required(login_url="Login_page")
 def delete_menu(request, pk):
     menu = Menu.objects.get(id=pk)
     if request.method == 'POST':
@@ -171,6 +182,7 @@ def delete_menu(request, pk):
     form = {'item': menu}
     return render(request, "menu/delete_menu.html", form)
 
+@login_required(login_url="Login_page")
 def delete_lunch(request, pk):
     lunch = Lunch.objects.get(id=pk)
     if request.method == 'POST':
@@ -180,6 +192,7 @@ def delete_lunch(request, pk):
     form = {'item': lunch}
     return render(request, "menu/delete_lunch.html", form)
 
+@login_required(login_url="Login_page")
 def delete_meal(request, pk):
     meal = Meal.objects.get(id=pk)
     if request.method == 'POST':
@@ -189,6 +202,7 @@ def delete_meal(request, pk):
     form = {'item': meal}
     return render(request, "menu/delete_meal.html", form)
 
+@login_required(login_url="Login_page")
 def delete_salad(request, pk):
     salad = Salad.objects.get(id=pk)
     if request.method == 'POST':
@@ -198,6 +212,7 @@ def delete_salad(request, pk):
     form = {'item': salad}
     return render(request, "menu/delete_salad.html", form)
 
+@login_required(login_url="Login_page")
 def delete_dessert(request, pk):
     dessert = Dessert.objects.get(id=pk)
     if request.method == 'POST':
