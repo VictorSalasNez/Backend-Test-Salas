@@ -205,5 +205,5 @@ def delete_dessert(request, pk):
         return redirect(menu_hub)
         
     form = {'item': dessert}
-    return render(request, "menu/delete_lunch.html", form)
+    return render(request, "menu/delete_dessert.html", form)
 
