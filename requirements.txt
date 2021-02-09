@@ -1,2 +1,4 @@
 Django
 slack_sdk
+PyHamcrest
+coverage
