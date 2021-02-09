@@ -4,10 +4,13 @@
 
 <h5> Create/Update Menu</h5>
 
+{{menuform.errors}}
 <form action="" method="POST">
     {% csrf_token %}
-    {{menuform}}
+    {{menuform.as_p}}
     <input type="submit", name="Menu">
 </form>
+
+
 
 {% endblock content %}

@@ -6,6 +6,7 @@ import uuid
 # Create your tests here.
 
 class TestMenuModels(TestCase):
+    
     def setUp(self):
         
         # Basic Names
