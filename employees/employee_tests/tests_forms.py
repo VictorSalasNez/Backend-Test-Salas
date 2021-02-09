@@ -1,6 +1,7 @@
 from django.test import TestCase
 from employees.forms import EmployeeForm
 from employees.models import Employee
+from hamcrest import *
 # Create your tests here.
 
 class TestEmployeeForms(TestCase):
@@ -12,30 +13,30 @@ class TestEmployeeForms(TestCase):
         self.form_basic = EmployeeForm()
 
     def tests_employee_fields(self):
-        self.assertTrue(self.form_basic.fields.get("name"))
-        self.assertTrue(self.form_basic.fields.get("slack_id"))
+        assert_that(self.form_basic.fields, has_key("name"))
+        assert_that(self.form_basic.fields, has_key("slack_id"))
 
     def tests_employee_no_fields(self):
-        self.assertIsNone(self.form_basic.fields.get("uuid"))
+        assert_that(self.form_basic.fields.get("uuid"), equal_to(None))
 
     def tests_employee_model_instance(self):
-        self.assertEqual(self.form_basic.Meta.model, Employee)
+        assert_that(self.form_basic.Meta.model, equal_to(Employee))
 
     def tests_employe_form_good(self):
         form = EmployeeForm(data= {"name": self.name , "slack_id": self.slack_id})
-        self.assertTrue(form.is_valid())
-        self.assertEqual(form.data["name"], self.name)
-        self.assertEqual(form.data["slack_id"], self.slack_id)
+        assert_that(form.is_valid(), equal_to(True))
+        assert_that(form.data["name"], self.name)
+        assert_that(form.data["slack_id"], self.slack_id)
 
     def tests_employe_form_no_name(self):
         form = EmployeeForm(data= {"name": self.empty , "slack_id": self.slack_id})
-        self.assertFalse(form.is_valid())
+        assert_that(form.is_valid(), equal_to(False))
     
     def tests_employe_form_no_slack_id(self):
         form = EmployeeForm(data= {"name": self.name , "slack_id": self.empty})
-        self.assertFalse(form.is_valid())
+        assert_that(form.is_valid(), equal_to(False))
 
     def tests_employe_form_nothing(self):
         form = EmployeeForm(data= {"name": self.empty , "slack_id": self.empty})
-        self.assertFalse(form.is_valid())
+        assert_that(form.is_valid(), equal_to(False))
     

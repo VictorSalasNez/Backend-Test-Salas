@@ -1,5 +1,6 @@
 from django.test import TestCase
 from main.forms import CreateUser
+from hamcrest import *
 from django.contrib.auth.models import User
 # Create your tests here.
 
@@ -15,16 +16,16 @@ class TestCreateUser(TestCase):
         self.form_basic = CreateUser()
 
     def tests_createuser_fields(self):
-        self.assertTrue(self.form_basic.fields.get("username"))
-        self.assertTrue(self.form_basic.fields.get("email"))
-        self.assertTrue(self.form_basic.fields.get("password1"))
-        self.assertTrue(self.form_basic.fields.get("password2"))
+        assert_that(self.form_basic.fields, has_key("username"))
+        assert_that(self.form_basic.fields, has_key("email"))
+        assert_that(self.form_basic.fields, has_key("password1"))
+        assert_that(self.form_basic.fields, has_key("password2"))
 
     def tests_createuser_no_fields(self):
-        self.assertIsNone(self.form_basic.fields.get("uuid"))
+        assert_that(self.form_basic.fields.get("uuid"), equal_to(None))
 
     def tests_createuser_model_instance(self):
-        self.assertEqual(self.form_basic.Meta.model, User)
+        assert_that(self.form_basic.Meta.model, equal_to(User))
 
     def tests_createuser_form_good(self):
         form = CreateUser(data= {"username": self.name , 
@@ -32,11 +33,11 @@ class TestCreateUser(TestCase):
                                  "password1": self.passwords_strong,
                                  "password2": self.passwords_strong })
 
-        self.assertTrue(form.is_valid())
-        self.assertEqual(form.data["username"], self.name)
-        self.assertEqual(form.data["email"], self.email_good)
-        self.assertEqual(form.data["password1"], self.passwords_strong)
-        self.assertEqual(form.data["password2"], self.passwords_strong)
+        assert_that(form.is_valid(), equal_to(True))
+        assert_that(form.data["username"], equal_to(self.name))
+        assert_that(form.data["email"], equal_to(self.email_good))
+        assert_that(form.data["password1"], equal_to(self.passwords_strong))
+        assert_that(form.data["password2"], equal_to(self.passwords_strong))
 
     def tests_createuser_form_no_name(self):
         form = CreateUser(data= {"username": self.empty_name , 
@@ -44,16 +45,16 @@ class TestCreateUser(TestCase):
                                  "password1": self.passwords_strong,
                                  "password2": self.passwords_strong })
 
-        self.assertFalse(form.is_valid())
+        assert_that(form.is_valid(), equal_to(False))
     
     def tests_createuser_form_week_pass(self):
         form = CreateUser(data= {"username": self.name , 
                                  "email": self.email_good,
                                  "password1": self.passwords_week,
                                  "password2": self.passwords_strong })
-        self.assertFalse(form.is_valid())
+        assert_that(form.is_valid(), equal_to(False))
 
     def tests_createuser_form_nothing(self):
         form = CreateUser(data= {})
-        self.assertFalse(form.is_valid())
+        assert_that(form.is_valid(), equal_to(False))
     
