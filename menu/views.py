@@ -59,49 +59,54 @@ def send_message(request, menu_id):
 def create_menu(request):
     # TODO send a popup message if fail or success
     # TODO block two menus for the same day
+    form = MenuForm()
     if request.method == 'POST':
         form = MenuForm(request.POST)
         if form.is_valid():
             form.save()
-    menu_form = {'menuform': MenuForm()}
+    menu_form = {'menuform': form}
     return render(request, 'menu/create_menu.html', menu_form) 
 
 @login_required(login_url="Login_page")
 def create_lunch(request):
-
     # TODO send a popup message if fail or success
+    form = LunchForm()
     if request.method == 'POST':
         form = LunchForm(request.POST)
         if form.is_valid():
             form.save()
 
-    return render(request, 'menu/create_lunch.html', {'lunchform'  : LunchForm() })
+    return render(request, 'menu/create_lunch.html', {'lunchform'  : form })
 
 @login_required(login_url="Login_page")
 def create_meal(request):
+    form = MealForm()
     if request.method == 'POST':
         form = MealForm(request.POST)
         if form.is_valid():
             form.save()
 
-    return render(request, 'menu/create_meal.html', {'mealform'  : MealForm() })
+    return render(request, 'menu/create_meal.html', {'mealform'  : form})
 
 @login_required(login_url="Login_page")
 def create_salad(request):
+    form = SaladForm()
     if request.method == 'POST':
         form = SaladForm(request.POST)
         if form.is_valid():
             form.save()
 
-    return render(request, 'menu/create_salad.html', {'saladform'  : SaladForm() })
+    return render(request, 'menu/create_salad.html', {'saladform'  : form })
+
 @login_required(login_url="Login_page")
 def create_dessert(request):
+    form = DessertForm()
     if request.method == 'POST':
         form = DessertForm(request.POST)
         if form.is_valid():
             form.save()
 
-    return render(request, 'menu/create_dessert.html', {'dessertform'  : DessertForm() })
+    return render(request, 'menu/create_dessert.html', {'dessertform'  : form })
 
 
 # UPDATE VIEWS
