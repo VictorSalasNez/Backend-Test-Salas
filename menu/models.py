@@ -64,8 +64,8 @@ class Lunch(models.Model):
 
 
     def __str__(self):
-        lunch_type = "" if self.category is None else f"({self.category}) ->"
-        return f"{lunch_type} {self.meal}, {self.salad}, {self.dessert}"
+        lunch_type = "" if self.category is None else f"({self.category}) -> "
+        return f"{lunch_type}{self.meal}, {self.salad}, {self.dessert}"
 
 class Menu(models.Model):
     """
@@ -73,7 +73,7 @@ class Menu(models.Model):
 
     Attributes:
         day     (date) : day of this menu
-        lunch   (int)  : multiple lunch assosiated with this menu
+        lunchs  (int)  : multiple lunch assosiated with this menu
     """
 
     day    = models.DateField(null=True)
