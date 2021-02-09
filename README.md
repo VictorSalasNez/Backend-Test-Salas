@@ -13,7 +13,7 @@
 
 * Python 3.8 with virtualenv
 
-### Installation
+### Setup
 
 * create virtualenv named `venv`
 
@@ -28,6 +28,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+### Inicialize server
+
 * Run server
 
 ```sh
@@ -37,6 +39,26 @@ python manage.py runserver
 * Lgin as Nora
     * UserName: Nora
     * Password: Cornershop1
+
+
+### Testing
+
+* Run tests
+```sh
+coverage run --source=employees,main,menu manage.py test
+```
+* see report
+
+```sh
+coverage report -m
+```
+* html report
+
+```sh
+coverage html
+```
+
+* Open the index.html file to see a web coverage report
 
 <!-- CONTACT -->
 ## Contact
