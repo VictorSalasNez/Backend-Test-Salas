@@ -17,9 +17,6 @@ class TestsEmployeesViews(TestCase):
         self.employee_hub    = reverse('employee_hub')
         self.create_employee = reverse('create_employee')
 
-        #self.uuid = "a2eb4a9c-a6ae-4a5a-b46b-5f01fb622e67"
-        
-        #self.delete_employee = reverse('delete_employee')
     
     def tearDown(self):
         self.user.delete()
