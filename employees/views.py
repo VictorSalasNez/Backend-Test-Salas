@@ -15,13 +15,13 @@ def employee_hub(request):
 def create_employee(request):
     # TODO send a popup message if fail or success
     # TODO block two menus for the same day
+    employe_form = EmployeeForm()
     if request.method == 'POST':
-        form = EmployeeForm(request.POST)
-        if form.is_valid():
-            form.save()
-    form = {'employeeform': EmployeeForm()}
+        employe_form = EmployeeForm(request.POST)
+        if employe_form.is_valid():
+            employe_form.save()
+    form = {'employeeform': employe_form}
     return render(request, 'employees/create_employee.html', form) 
-
 
 # UPDATE VIEWS
 @login_required(login_url="Login_page")
@@ -33,7 +33,6 @@ def update_employee(request, employee_uuid):
         if form.is_valid():
             form.save()
             return redirect(employee_hub)
-
     menu_form = {'employeeform': form}
     return render(request, 'employees/create_employee.html', menu_form)
 
