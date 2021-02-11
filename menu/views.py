@@ -13,13 +13,6 @@ from employees.models import Employee
 os.environ['SLACK_BOT_TOKEN'] = "xoxb-1691797685303-1708676997845-jtGFddMOhEDsscCcjMqRUfw9"
 client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
 
-@login_required(login_url="Login_page")
-def menu_hub(request):
-    return render(request, 'menu/menu.html', {'lunchs'  : Lunch.objects.all(), 
-                                              'menus'   : Menu.objects.all(),
-                                              'meals'   : Meal.objects.all(),
-                                              'salads'  : Salad.objects.all(),
-                                              'desserts': Dessert.objects.all()})
 def menus_day(request, menu_uuid):
     try:
         check_time = datetime.datetime.now()
@@ -40,6 +33,14 @@ def menus_day(request, menu_uuid):
     except Exception as error:
         return HttpResponse(error)
 
+@login_required(login_url="Login_page")
+def menu_hub(request):
+    return render(request, 'menu/menu.html', {'lunchs'  : Lunch.objects.all(), 
+                                              'menus'   : Menu.objects.all(),
+                                              'meals'   : Meal.objects.all(),
+                                              'salads'  : Salad.objects.all(),
+                                              'desserts': Dessert.objects.all()})
+    
 @login_required(login_url="Login_page")
 def send_message(request, menu_id):
 
@@ -107,7 +108,6 @@ def create_dessert(request):
             form.save()
 
     return render(request, 'menu/create_dessert.html', {'dessertform'  : form })
-
 
 # UPDATE VIEWS
 @login_required(login_url="Login_page")
