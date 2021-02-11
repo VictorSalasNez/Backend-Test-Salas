@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
+from datetime import datetime
 from menu.models import *
 from hamcrest import *
 
@@ -223,3 +224,99 @@ class TestsEmployeesViews(TestCase):
         assert_that(Dessert.objects.first().category, equal_to(updated_category))
 
     #DELETE VIEWS
+
+    def test_delete_menu_get(self):
+        Menu.objects.get_or_create(day=datetime.now().strftime("%Y-%m-%d"))
+        assert_that(Menu.objects.count(), equal_to(1))
+
+        delete_menu = reverse('Delete_menu', args=[Menu.objects.first().id])
+        response = self.client.get(delete_menu)
+        assert_that(response.status_code, equal_to(200))
+        assert_that(Menu.objects.count(), equal_to(1))
+        self.assertTemplateUsed(response, 'menu/delete_menu.html')
+
+
+    def test_delete_menu_post(self):
+        Menu.objects.get_or_create(day=datetime.now().strftime("%Y-%m-%d"))
+        assert_that(Menu.objects.count(), equal_to(1))
+
+        delete_menu = reverse('Delete_menu', args=[Menu.objects.first().id])
+        response = self.client.post(delete_menu)
+        assert_that(response.status_code, equal_to(302))
+        assert_that(Menu.objects.count(), equal_to(0))
+
+    def test_delete_lunch_get(self):
+        Lunch.objects.get_or_create(category=MENU_TYPE[1][1])
+        assert_that(Lunch.objects.count(), equal_to(1))
+
+        delete_lunch = reverse('Delete_lunch', args=[Lunch.objects.first().id])
+        response = self.client.get(delete_lunch)
+        assert_that(response.status_code, equal_to(200))
+        assert_that(Lunch.objects.count(), equal_to(1))
+        self.assertTemplateUsed(response, 'menu/delete_lunch.html')
+
+    def test_delete_lunch_post(self):
+        Lunch.objects.get_or_create(category=MENU_TYPE[1][1])
+        assert_that(Lunch.objects.count(), equal_to(1))
+
+        delete_lunch = reverse('Delete_lunch', args=[Lunch.objects.first().id])
+        response = self.client.post(delete_lunch)
+        assert_that(response.status_code, equal_to(302))
+        assert_that(Lunch.objects.count(), equal_to(0))
+
+    def test_delete_meal_get(self):
+        Meal.objects.get_or_create(meal_name="meal")
+        assert_that(Meal.objects.count(), equal_to(1))
+
+        delete_meal = reverse('Delete_meal', args=[Meal.objects.first().id])
+        response = self.client.get(delete_meal)
+        assert_that(response.status_code, equal_to(200))
+        assert_that(Meal.objects.count(), equal_to(1))
+        self.assertTemplateUsed(response, 'menu/delete_meal.html')
+
+    def test_delete_meal_post(self):
+        Meal.objects.get_or_create(meal_name="meal")
+        assert_that(Meal.objects.count(), equal_to(1))
+
+        delete_meal = reverse('Delete_meal', args=[Meal.objects.first().id])
+        response = self.client.post(delete_meal)
+        assert_that(response.status_code, equal_to(302))
+        assert_that(Meal.objects.count(), equal_to(0))
+
+    def test_delete_salad_get(self):
+        Salad.objects.get_or_create(salad_name="salad")
+        assert_that(Salad.objects.count(), equal_to(1))
+
+        delete_salad = reverse('Delete_salad', args=[Salad.objects.first().id])
+        response = self.client.get(delete_salad)
+        assert_that(response.status_code, equal_to(200))
+        assert_that(Salad.objects.count(), equal_to(1))
+        self.assertTemplateUsed(response, 'menu/delete_salad.html')
+
+    def test_delete_salad_post(self):
+        Salad.objects.get_or_create(salad_name="salad")
+        assert_that(Salad.objects.count(), equal_to(1))
+
+        delete_salad = reverse('Delete_salad', args=[Salad.objects.first().id])
+        response = self.client.post(delete_salad)
+        assert_that(response.status_code, equal_to(302))
+        assert_that(Salad.objects.count(), equal_to(0))
+
+    def test_delete_dessert_get(self):
+        Dessert.objects.get_or_create(dessert_name="salad")
+        assert_that(Dessert.objects.count(), equal_to(1))
+
+        delete_dessert = reverse('Delete_dessert', args=[Dessert.objects.first().id])
+        response = self.client.get(delete_dessert)
+        assert_that(response.status_code, equal_to(200))
+        assert_that(Dessert.objects.count(), equal_to(1))
+        self.assertTemplateUsed(response, 'menu/delete_dessert.html')
+
+    def test_delete_dessert_post(self):
+        Dessert.objects.get_or_create(dessert_name="salad")
+        assert_that(Dessert.objects.count(), equal_to(1))
+
+        delete_dessert = reverse('Delete_dessert', args=[Dessert.objects.first().id])
+        response = self.client.post(delete_dessert)
+        assert_that(response.status_code, equal_to(302))
+        assert_that(Dessert.objects.count(), equal_to(0))
