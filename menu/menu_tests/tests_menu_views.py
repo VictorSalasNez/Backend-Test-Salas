@@ -49,9 +49,51 @@ class TestsEmployeesViews(TestCase):
         assert_that(response.status_code, equal_to(200))
         self.assertTemplateUsed(response, 'menu/create_menu.html')
     
-    #TODO fix
-    def atest_create_menu_post(self):
-        response = self.client.post(self.create_menu, {})
+    def test_create_menu_post_no_valid(self):
+        assert_that(Menu.objects.count(), equal_to(0))
+        response = self.client.post(self.create_menu, {'day': datetime.now().strftime("%Y-%m-%d"),
+                                                       'lunchs': ""})
+        assert_that(Menu.objects.count(), equal_to(0))
+        assert_that(response.status_code, equal_to(200))
+        self.assertTemplateUsed(response, 'menu/create_menu.html')
+
+    def test_create_menu_post_valid(self):
+
+        dessert_name= "name dessert"
+        meal_name = "meal name"
+        salad_name = "name salad"
+        dessert_name_2= "name dessert 2"
+        meal_name_2 = "meal name 2"
+        salad_name_2 = "name salad 2"
+
+        Meal.objects.get_or_create(meal_name=meal_name,
+                            category = MENU_TYPE[1][1])
+        Salad.objects.get_or_create(salad_name=salad_name)
+        Dessert.objects.get_or_create(dessert_name=dessert_name,
+                                      category=MENU_TYPE[1][1])
+
+        Meal.objects.get_or_create(meal_name=meal_name_2,
+                            category = MENU_TYPE[1][1])
+        Salad.objects.get_or_create(salad_name=salad_name_2)
+        Dessert.objects.get_or_create(dessert_name=dessert_name_2,
+                                      category=MENU_TYPE[1][1])
+
+        Lunch.objects.get_or_create(meal=Meal.objects.get(id=1),
+                                    salad=Salad.objects.get(id=1),
+                                    dessert=Dessert.objects.get(id=1),
+                                    category=MENU_TYPE[1][1])
+        
+        Lunch.objects.get_or_create(meal=Meal.objects.get(id=2),
+                                    salad=Salad.objects.get(id=2),
+                                    dessert=Dessert.objects.get(id=2),
+                                    category=MENU_TYPE[1][1])
+
+        assert_that(Menu.objects.count(), equal_to(0))
+        response = self.client.post(self.create_menu, data={'day': datetime.now().strftime("%Y-%m-%d"),
+                                                            'lunchs': [Lunch.objects.get(id=1).id, Lunch.objects.get(id=2).id]})
+        assert_that(Menu.objects.count(), equal_to(1))
+        assert_that(len(Menu.objects.first().lunchs.all()), equal_to(2) )
+
         assert_that(response.status_code, equal_to(200))
         self.assertTemplateUsed(response, 'menu/create_menu.html')
 
@@ -59,9 +101,42 @@ class TestsEmployeesViews(TestCase):
         response = self.client.get(self.create_lunch)
         assert_that(response.status_code, equal_to(200))
         self.assertTemplateUsed(response, 'menu/create_lunch.html')
-    
-    def test_create_lunch_post(self):
-        pass
+
+    def test_create_lunch_post_no_valid(self):
+        dessert_name= "name dessert"
+        meal_name = "meal name"
+        salad_name = "name salad"
+        Salad.objects.get_or_create(salad_name=salad_name)
+        Dessert.objects.get_or_create(dessert_name=dessert_name,
+                                      category=MENU_TYPE[1][1])
+
+        assert_that(Lunch.objects.count(), equal_to(0))   
+        response = self.client.post(self.create_lunch, {'meal': "",
+                                                        'salad': Salad.objects.first().id,
+                                                        'dessert': Dessert.objects.first().id,
+                                                        'category': MENU_TYPE[1][1]})
+        assert_that(Lunch.objects.count(), equal_to(0)) 
+        assert_that(response.status_code, equal_to(200))
+        self.assertTemplateUsed(response, 'menu/create_lunch.html')
+
+    def test_create_lunch_post_valid(self):
+        dessert_name= "name dessert"
+        meal_name = "meal name"
+        salad_name = "name salad"
+        Meal.objects.get_or_create(meal_name=meal_name,
+                            category = MENU_TYPE[1][1])
+        Salad.objects.get_or_create(salad_name=salad_name)
+        Dessert.objects.get_or_create(dessert_name=dessert_name,
+                                      category=MENU_TYPE[1][1])
+
+        assert_that(Lunch.objects.count(), equal_to(0))   
+        response = self.client.post(self.create_lunch, {'meal': Meal.objects.first().id,
+                                                        'salad': Salad.objects.first().id,
+                                                        'dessert': Dessert.objects.first().id,
+                                                        'category': MENU_TYPE[1][1]})
+        assert_that(Lunch.objects.count(), equal_to(1)) 
+        assert_that(response.status_code, equal_to(200))
+        self.assertTemplateUsed(response, 'menu/create_lunch.html')
 
     def test_create_meal_get(self):
         response = self.client.get(self.create_meal)
