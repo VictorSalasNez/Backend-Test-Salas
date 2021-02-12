@@ -10,7 +10,8 @@ from .models import Lunch, Menu, Order, Meal, Salad, Dessert
 from .forms import MealForm, SaladForm, DessertForm, LunchForm, MenuForm, SelectMenuForm
 from employees.models import Employee
 
-os.environ['SLACK_BOT_TOKEN'] = "xoxb-1691797685303-1708676997845-jtGFddMOhEDsscCcjMqRUfw9"
+os.environ['SLACK_BOT_TOKEN'] = "xoxb-1691797685303-1757149123857-OlcyGWQtUYwRmMI1XTBLbeMM"
+
 client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
 
 def menus_day(request, menu_uuid):
