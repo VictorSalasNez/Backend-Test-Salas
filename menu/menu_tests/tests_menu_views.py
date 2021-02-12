@@ -183,10 +183,12 @@ class TestsEmployeesViews(TestCase):
 
     #UPDATE VIEWS
 
-    def test_update_menu_get(self):
+    #TODO
+    def atest_update_menu_get(self):
         pass
 
-    def test_update_menu_post(self):
+    #TODO
+    def atest_update_menu_post(self):
         pass
 
     def test_update_lunch_get(self):
@@ -207,6 +209,7 @@ class TestsEmployeesViews(TestCase):
         update_lunch = reverse('Update_Lunch_Page', args=[Lunch.objects.first().id])
 
 
+    #TODO fix how to pass the parameters to the update
     def test_update_lunch_post(self):
         dessert_name = "name dessert"
         meal_name = "meal name"
@@ -236,14 +239,7 @@ class TestsEmployeesViews(TestCase):
                                                    'category' : MENU_TYPE[1][1]})
 
         assert_that(response.status_code, equal_to(302))
-
         assert_that(Lunch.objects.first().dessert.dessert_name, equal_to(dessert_name_2))
-
-
-
-
-
-
 
 
     def test_update_meal_get(self):
