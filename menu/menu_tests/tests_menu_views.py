@@ -190,10 +190,61 @@ class TestsEmployeesViews(TestCase):
         pass
 
     def test_update_lunch_get(self):
-        pass
+        dessert_name= "name dessert"
+        meal_name = "meal name"
+        salad_name = "name salad"
+        Meal.objects.get_or_create(meal_name=meal_name,
+                            category = MENU_TYPE[1][1])
+        Salad.objects.get_or_create(salad_name=salad_name)
+        Dessert.objects.get_or_create(dessert_name=dessert_name,
+                                      category=MENU_TYPE[1][1])
+
+        Lunch.objects.get_or_create(meal=Meal.objects.get(id=1),
+                                    salad=Salad.objects.get(id=1),
+                                    dessert=Dessert.objects.get(id=1),
+                                    category=MENU_TYPE[1][1])
+
+        update_lunch = reverse('Update_Lunch_Page', args=[Lunch.objects.first().id])
+
 
     def test_update_lunch_post(self):
-        pass
+        dessert_name = "name dessert"
+        meal_name = "meal name"
+        salad_name = "name salad"
+        dessert_name_2 = "updated_name"
+        Meal.objects.get_or_create(meal_name=meal_name,
+                            category = MENU_TYPE[1][1])
+        Salad.objects.get_or_create(salad_name=salad_name)
+        Dessert.objects.get_or_create(dessert_name=dessert_name,
+                                      category=MENU_TYPE[1][1])
+
+        Dessert.objects.get_or_create(dessert_name=dessert_name_2,
+                                      category=MENU_TYPE[1][1])
+
+        Lunch.objects.get_or_create(meal=Meal.objects.get(id=1),
+                                    salad=Salad.objects.get(id=1),
+                                    dessert=Dessert.objects.get(id=1),
+                                    category=MENU_TYPE[1][1])
+
+
+
+        update_lunch = reverse('Update_Lunch_Page', args=[Lunch.objects.first().id])
+
+        response = self.client.post(update_lunch, {'meal': Meal.objects.get(id=1),
+                                                   'salad': Salad.objects.get(id=1),
+                                                   'dessert': Dessert.objects.get(id=2),
+                                                   'category' : MENU_TYPE[1][1]})
+
+        assert_that(response.status_code, equal_to(302))
+
+        assert_that(Lunch.objects.first().dessert.dessert_name, equal_to(dessert_name_2))
+
+
+
+
+
+
+
 
     def test_update_meal_get(self):
         meal_name= "name meal"
