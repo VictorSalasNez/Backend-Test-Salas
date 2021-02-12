@@ -39,8 +39,9 @@ To be integrated with slack the following is needed.
 * Once you give the permission in the same section `Oauth & Permissions`, go to the top and Install in your workspace
 * Copy the token that slack show you and paste in the `menu\views.py`, and change the string asigned to the os.environ['SLACK_BOT_TOKEN'].
 
-### Add a Employee
+### Documentation
 
+Please see the WIKI page of this repository
 
 ### Inicialize server
 
