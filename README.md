@@ -78,3 +78,12 @@ coverage html
 ## Contact
 
 Victor Salas - [@victorfsalasn](https://www.instagram.com/victorfsalasn/) - victor.salasnez@gmail.com
+
+
+## TODO
+
+* Message if there are no menu for today.
+* Automatic Reminder
+* Register Page only for Employees to add their own Slack_ID/ in the future also the company that their are working on
+* Alow nora to create more admins
+* Export Orders of today functionality
